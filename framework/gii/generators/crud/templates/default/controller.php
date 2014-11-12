@@ -22,7 +22,6 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
 	{
 		return array(
 			'accessControl', // perform access control for CRUD operations
-			'postOnly + delete', // we only allow deletion via POST request
 		);
 	}
 
@@ -67,23 +66,30 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
 	 * Creates a new model.
 	 * If creation is successful, the browser will be redirected to the 'view' page.
 	 */
-	public function actionCreate()
-	{
+	public function actionCreate(){
+		
 		$model=new <?php echo $this->modelClass; ?>;
-
+		
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
-
-		if(isset($_POST['<?php echo $this->modelClass; ?>']))
-		{
+		
+		if(isset($_POST['<?php echo $this->modelClass; ?>'])){
 			$model->attributes=$_POST['<?php echo $this->modelClass; ?>'];
-			if($model->save())
-				$this->redirect(array('view','id'=>$model-><?php echo $this->tableSchema->primaryKey; ?>));
+			if($model->save()){
+				if(Yii::app()->request->isAjaxRequest){
+					echo 'success';
+					Yii::app()->end();
+				}
+				else {
+					$this->redirect(array('view','id'=>$model-><?php echo $this->tableSchema->primaryKey; ?>));
+				}
+			}
 		}
-
-		$this->render('create',array(
-			'model'=>$model,
-		));
+		if(Yii::app()->request->isAjaxRequest)
+			$this->renderPartial('create',array('model'=>$model), false, true);
+		else
+			$this->render('create',array('model'=>$model));
+			
 	}
 
 	/**
@@ -91,8 +97,8 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
 	 * If update is successful, the browser will be redirected to the 'view' page.
 	 * @param integer $id the ID of the model to be updated
 	 */
-	public function actionUpdate($id)
-	{
+	public function actionUpdate($id){
+		
 		$model=$this->loadModel($id);
 
 		// Uncomment the following line if AJAX validation is needed
@@ -101,13 +107,22 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
 		if(isset($_POST['<?php echo $this->modelClass; ?>']))
 		{
 			$model->attributes=$_POST['<?php echo $this->modelClass; ?>'];
-			if($model->save())
-				$this->redirect(array('view','id'=>$model-><?php echo $this->tableSchema->primaryKey; ?>));
+			if($model->save()) {
+				if(Yii::app()->request->isAjaxRequest){
+					echo 'success';
+					Yii::app()->end();
+				}
+				else {
+					$this->redirect(array('view','id'=>$model-><?php echo $this->tableSchema->primaryKey; ?>));
+				}
+			}
 		}
-
-		$this->render('update',array(
-			'model'=>$model,
-		));
+		if(Yii::app()->request->isAjaxRequest)
+			$this->renderPartial('update',array('model'=>$model), false, true);
+        
+		else
+			$this->render('update',array('model'=>$model));
+		
 	}
 
 	/**
@@ -117,11 +132,17 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
 	 */
 	public function actionDelete($id)
 	{
-		$this->loadModel($id)->delete();
+		if(Yii::app()->request->isPostRequest)
+		{
+			// we only allow deletion via POST request
+			$this->loadModel($id)->delete();
 
-		// if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
-		if(!isset($_GET['ajax']))
-			$this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
+			// if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
+			if(!isset($_GET['ajax']))
+				$this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('admin'));
+		}
+		else
+			throw new CHttpException(400,'Invalid request. Please do not repeat this request again.');
 	}
 
 	/**
@@ -153,9 +174,7 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
 	/**
 	 * Returns the data model based on the primary key given in the GET variable.
 	 * If the data model is not found, an HTTP exception will be raised.
-	 * @param integer $id the ID of the model to be loaded
-	 * @return <?php echo $this->modelClass; ?> the loaded model
-	 * @throws CHttpException
+	 * @param integer the ID of the model to be loaded
 	 */
 	public function loadModel($id)
 	{
@@ -167,7 +186,7 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
 
 	/**
 	 * Performs the AJAX validation.
-	 * @param <?php echo $this->modelClass; ?> $model the model to be validated
+	 * @param CModel the model to be validated
 	 */
 	protected function performAjaxValidation($model)
 	{

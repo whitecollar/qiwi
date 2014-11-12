@@ -4,24 +4,14 @@
  * - $this: the CrudCode object
  */
 ?>
-<?php echo "<?php\n"; ?>
-/* @var $this <?php echo $this->getControllerClass(); ?> */
-/* @var $model <?php echo $this->getModelClass(); ?> */
-/* @var $form CActiveForm */
-?>
-
 <div class="form">
 
 <?php echo "<?php \$form=\$this->beginWidget('CActiveForm', array(
 	'id'=>'".$this->class2id($this->modelClass)."-form',
-	// Please note: When you enable ajax validation, make sure the corresponding
-	// controller action is handling ajax validation correctly.
-	// There is a call to performAjaxValidation() commented in generated controller code.
-	// See class documentation of CActiveForm for details on this.
 	'enableAjaxValidation'=>false,
 )); ?>\n"; ?>
 
-	<p class="note">Fields with <span class="required">*</span> are required.</p>
+	<p class="note">Поля помеченные <span class="required">*</span> обязательны для заполнения.</p>
 
 	<?php echo "<?php echo \$form->errorSummary(\$model); ?>\n"; ?>
 
@@ -40,9 +30,38 @@ foreach($this->tableSchema->columns as $column)
 <?php
 }
 ?>
+	<?php echo '<?php'; ?> if (!Yii::app()->request->isAjaxRequest): ?>
 	<div class="row buttons">
-		<?php echo "<?php echo CHtml::submitButton(\$model->isNewRecord ? 'Create' : 'Save'); ?>\n"; ?>
+		<?php echo "<?php echo CHtml::submitButton(\$model->isNewRecord ? 'Создать' : 'Сохранить'); ?>\n"; ?>
 	</div>
+	
+	<?php echo '<?php'; ?> else: ?>
+	<div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
+		<div class="ui-dialog-buttonset">
+		<?php echo '<?php'; ?>
+			$this->widget('zii.widgets.jui.CJuiButton', array(
+				'name'=>'submit_'.rand(),
+				'caption'=>$model->isNewRecord ? 'Создать' : 'Сохранить',
+				'htmlOptions'=>array(
+					'ajax' => array(
+						'url'=>$model->isNewRecord ? $this->createUrl('create') : $this->createUrl('update', array('id'=>$model->id)),
+						'type'=>'post',
+						'data'=>'js:jQuery(this).parents("form").serialize()',
+						'success'=>'function(r){
+							if(r=="success"){
+								window.location.reload();
+							}
+							else{
+								$("#DialogCRUDForm").html(r).dialog("option", "title", "'.($model->isNewRecord ? 'Create' : 'Update').' <?php echo $this->modelClass; ?>").dialog("open"); return false;
+							}
+						}', 
+					),
+				),
+			));
+		?>
+		</div>
+	</div>
+	<?php echo '<?php'; ?> endif; ?>
 
 <?php echo "<?php \$this->endWidget(); ?>\n"; ?>
 

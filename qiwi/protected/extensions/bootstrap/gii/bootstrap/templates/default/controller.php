@@ -57,9 +57,10 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
 	 */
 	public function actionView($id)
 	{
-		$this->render('view',array(
-			'model'=>$this->loadModel($id),
-		));
+		if(Yii::app()->request->isAjaxRequest)
+			$this->renderPartial('view',array('model'=>$this->loadModel($id)));
+		else
+			$this->render('view',array('model'=>$this->loadModel($id)));
 	}
 
 	/**
@@ -72,17 +73,23 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
 
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
-
-		if(isset($_POST['<?php echo $this->modelClass; ?>']))
-		{
+		
+		if(isset($_POST['<?php echo $this->modelClass; ?>'])){
 			$model->attributes=$_POST['<?php echo $this->modelClass; ?>'];
-			if($model->save())
-				$this->redirect(array('view','id'=>$model-><?php echo $this->tableSchema->primaryKey; ?>));
+			if($model->save()){
+				if(Yii::app()->request->isAjaxRequest){
+					echo 'success';
+					Yii::app()->end();
+				}
+				else {
+					$this->redirect(array('view','id'=>$model-><?php echo $this->tableSchema->primaryKey; ?>));
+				}
+			}
 		}
-
-		$this->render('create',array(
-			'model'=>$model,
-		));
+		if(Yii::app()->request->isAjaxRequest)
+			$this->renderPartial('_form',array('model'=>$model), false, true);
+		else
+			$this->render('create',array('model'=>$model));
 	}
 
 	/**
@@ -100,13 +107,21 @@ class <?php echo $this->controllerClass; ?> extends <?php echo $this->baseContro
 		if(isset($_POST['<?php echo $this->modelClass; ?>']))
 		{
 			$model->attributes=$_POST['<?php echo $this->modelClass; ?>'];
-			if($model->save())
-				$this->redirect(array('view','id'=>$model-><?php echo $this->tableSchema->primaryKey; ?>));
+			if($model->save()) {
+				if(Yii::app()->request->isAjaxRequest){
+					echo 'success';
+					Yii::app()->end();
+				}
+				else {
+					$this->redirect(array('view','id'=>$model-><?php echo $this->tableSchema->primaryKey; ?>));
+				}
+			}
 		}
-
-		$this->render('update',array(
-			'model'=>$model,
-		));
+		if(Yii::app()->request->isAjaxRequest)
+			$this->renderPartial('_form',array('model'=>$model), false, true);
+        
+		else
+			$this->render('update',array('model'=>$model));
 	}
 
 	/**

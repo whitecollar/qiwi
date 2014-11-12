@@ -15,7 +15,12 @@ echo "\$this->breadcrumbs=array(
 
 $this->menu=array(
 	array('label'=>'List <?php echo $this->modelClass; ?>','url'=>array('index')),
-	array('label'=>'Create <?php echo $this->modelClass; ?>','url'=>array('create')),
+	array('label'=>'Create <?php echo $this->modelClass; ?>', 'url'=>array('create'), 'linkOptions'=>array(
+		'ajax' => array(
+			'url'=>$this->createUrl('create'),
+			'success'=>'function(r){$("#TBDialogCrud").html(r).modal("show");}', 
+		),
+	)),
 );
 
 Yii::app()->clientScript->registerScript('search', "
@@ -31,6 +36,9 @@ $('.search-form form').submit(function(){
 });
 ");
 ?>
+
+<?php echo "<?php \$this->beginWidget('bootstrap.widgets.TbModal', array('id'=>'TBDialogCrud')); ?>\n"; ?>
+<?php echo "<?php \$this->endWidget(); ?>\n"; ?>
 
 <h1>Manage <?php echo $this->pluralize($this->class2name($this->modelClass)); ?></h1>
 
@@ -49,6 +57,7 @@ or <b>=</b>) at the beginning of each of your search values to specify how the c
 
 <?php echo "<?php"; ?> $this->widget('bootstrap.widgets.TbGridView',array(
 	'id'=>'<?php echo $this->class2id($this->modelClass); ?>-grid',
+	'ajaxUpdate'=>false,
 	'dataProvider'=>$model->search(),
 	'filter'=>$model,
 	'columns'=>array(
@@ -65,6 +74,26 @@ if($count>=7)
 ?>
 		array(
 			'class'=>'bootstrap.widgets.TbButtonColumn',
+			'buttons' => array(
+				'update' => array(
+					'click'=>'function(){
+						var url = $(this).attr("href");
+						$.get(url, function(r){
+							$("#TBDialogCrud").html(r).modal("show");
+						});
+						return false;
+					}',
+				),
+				'view' => array(
+					'click'=>'function(){
+						var url = $(this).attr("href");
+						$.get(url, function(r){
+							$("#TBDialogCrud").html(r).modal("show");
+						});
+						return false;
+					}',
+				),
+			),
 		),
 	),
 )); ?>

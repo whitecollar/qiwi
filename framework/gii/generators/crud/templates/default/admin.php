@@ -4,11 +4,8 @@
  * - $this: the CrudCode object
  */
 ?>
-<?php echo "<?php\n"; ?>
-/* @var $this <?php echo $this->getControllerClass(); ?> */
-/* @var $model <?php echo $this->getModelClass(); ?> */
-
 <?php
+echo "<?php\n";
 $label=$this->pluralize($this->class2name($this->modelClass));
 echo "\$this->breadcrumbs=array(
 	'$label'=>array('index'),
@@ -18,8 +15,36 @@ echo "\$this->breadcrumbs=array(
 
 $this->menu=array(
 	array('label'=>'List <?php echo $this->modelClass; ?>', 'url'=>array('index')),
-	array('label'=>'Create <?php echo $this->modelClass; ?>', 'url'=>array('create')),
+	array('label'=>'Create <?php echo $this->modelClass; ?>', 'url'=>array('create'), 'linkOptions'=>array(
+		'ajax' => array(
+			'url'=>$this->createUrl('create'),
+			'success'=>'js:function(r){$("#DialogCRUDForm").html(r).dialog("option", "title", "Create <?php echo $this->modelClass; ?>").dialog("open"); return false;}',
+		),
+	)),
 );
+
+$this->beginWidget('zii.widgets.jui.CJuiDialog',array(
+        'id'=>'DialogCRUDForm',
+        'options'=>array(
+			'autoOpen'=>false,
+			'modal'=>true,
+			'width'=>'auto',
+			'height'=>'auto',
+			'resizable'=>'false',
+		),
+	));
+$this->endWidget();
+
+$updateDialog =<<<'EOT'
+function() {
+	var url = $(this).attr('href');
+    $.get(url, function(r){
+        $("#update").html(r).dialog("open");
+		$("#DialogCRUDForm").html(r).dialog("option", "title", "Update <?php echo $this->modelClass; ?>").dialog("open");
+    });
+    return false;
+}
+EOT;
 
 Yii::app()->clientScript->registerScript('search', "
 $('.search-button').click(function(){
@@ -27,7 +52,7 @@ $('.search-button').click(function(){
 	return false;
 });
 $('.search-form form').submit(function(){
-	$('#<?php echo $this->class2id($this->modelClass); ?>-grid').yiiGridView('update', {
+	$.fn.yiiGridView.update('<?php echo $this->class2id($this->modelClass); ?>-grid', {
 		data: $(this).serialize()
 	});
 	return false;
@@ -52,6 +77,7 @@ or <b>=</b>) at the beginning of each of your search values to specify how the c
 
 <?php echo "<?php"; ?> $this->widget('zii.widgets.grid.CGridView', array(
 	'id'=>'<?php echo $this->class2id($this->modelClass); ?>-grid',
+	'ajaxUpdate'=>false,
 	'dataProvider'=>$model->search(),
 	'filter'=>$model,
 	'columns'=>array(
@@ -68,6 +94,11 @@ if($count>=7)
 ?>
 		array(
 			'class'=>'CButtonColumn',
+			'buttons' => array(
+				'update' => array(
+					'click'=>$updateDialog
+				),
+			), 
 		),
 	),
 )); ?>

@@ -4,6 +4,7 @@
  * - $this: the BootCrudCode object
  */
 ?>
+<?php echo "<?php if(!Yii::app()->request->isAjaxRequest): ?>\n"; ?>
 <?php
 echo "<?php\n";
 $nameColumn=$this->guessNameColumn($this->tableSchema->columns);
@@ -24,6 +25,16 @@ $this->menu=array(
 ?>
 
 <h1>View <?php echo $this->modelClass." #<?php echo \$model->{$this->tableSchema->primaryKey}; ?>"; ?></h1>
+<?php echo "<?php endif; ?>\n"; ?>
+
+<?php echo "<?php if(Yii::app()->request->isAjaxRequest): ?>\n"; ?>
+<div class="modal-header">
+	<a class="close" data-dismiss="modal">&times;</a>
+	<h4>View People #<?php echo "<?php echo \$model->".$this->tableSchema->primaryKey."; ?>" ?></h4>
+</div>
+
+<div class="modal-body">
+<?php echo "<?php endif; ?>\n"; ?>
 
 <?php echo "<?php"; ?> $this->widget('bootstrap.widgets.TbDetailView',array(
 	'data'=>$model,
@@ -34,3 +45,19 @@ foreach($this->tableSchema->columns as $column)
 ?>
 	),
 )); ?>
+
+<?php echo "<?php if(Yii::app()->request->isAjaxRequest): ?>\n"; ?>
+</div>
+
+<div class="modal-footer">
+    <?php echo "<?php \$this->widget('bootstrap.widgets.TbButton', array(
+        'label'=>'Закрыть',
+        'url'=>'#',
+        'htmlOptions'=>array(
+			'id'=>'btn-'.mt_rand(),
+			'data-dismiss'=>'modal'
+		),
+    )); ?>\n" ?>
+</div>
+
+<?php echo "<?php endif; ?>" ?>
