@@ -9,6 +9,11 @@
 Yii::setPathOfAlias('bootstrap', dirname(__FILE__).'/../extensions/bootstrap');
  
 return array(
+      'aliases' => array(
+      
+        'bootstrap' => realpath(__DIR__ . '/../extensions/bootstrap'), // change this if necessary
+    ),
+    
     'basePath'=>dirname(__FILE__).DIRECTORY_SEPARATOR.'..',
     'name'=>'My Web Application',
     'language'=> 'ru',
@@ -20,6 +25,7 @@ return array(
     'import'=>array(
         'application.models.*',
         'application.components.*',
+        'bootstrap.helpers.TbHtml',
     ),
     'theme'=>'bootstrap', //подключение темы
     'modules'=>array(
@@ -65,6 +71,7 @@ return array(
     'components'=>array(
         'bootstrap'=>array(
             'class'=>'bootstrap.components.Bootstrap',
+             'class' => 'bootstrap.components.TbApi',
         ),
         'user'=>array(
             // enable cookie-based authentication

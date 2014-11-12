@@ -3,7 +3,7 @@ $this->breadcrumbs=array(
 	'Crm Clients'=>array('index'),
 	'Manage',
 );
-
+ 
 $this->menu=array(
 	array('label'=>'List CrmClients','url'=>array('index')),
 	array('label'=>'Create CrmClients','url'=>array('create')),
@@ -37,9 +37,12 @@ or <b>=</b>) at the beginning of each of your search values to specify how the c
 )); ?>
 </div><!-- search-form -->
 
+
 <?php $this->widget('bootstrap.widgets.TbGridView',array(
 	'id'=>'crm-clients-grid',
 	'dataProvider'=>$model->search(),
+           'type' => TbHtml::GRID_TYPE_STRIPED,
+    'type' => TbHtml::GRID_TYPE_BORDERED,
 	'filter'=>$model,
 	'columns'=>array(
 		'id',
@@ -48,13 +51,13 @@ or <b>=</b>) at the beginning of each of your search values to specify how the c
 		'login',
 		'pass',
 		'street',
-		/*
+		
 		'name',
 		'house',
 		'flat',
 		'birthday',
 		'addon',
-		*/
+		
 		array(
 			'class'=>'bootstrap.widgets.TbButtonColumn',
 		),
