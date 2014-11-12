@@ -63,20 +63,28 @@ class CrmClientsController extends Controller
 	{
 		$model=new CrmClients;
 
-		// Uncomment the following line if AJAX validation is needed
-		// $this->performAjaxValidation($model);
-
-		if(isset($_POST['CrmClients']))
-		{
-			$model->attributes=$_POST['CrmClients'];
-			if($model->save())
-				$this->redirect(array('view','id'=>$model->id));
-		}
-
-		$this->render('create',array(
-			'model'=>$model,
-		));
-	}
+		  
+    // Uncomment the following line if AJAX validation is needed
+    // $this->performAjaxValidation($model);
+     
+    if(isset($_POST['CrmClients'])){
+        $model->attributes=$_POST['CrmClients'];
+        if($model->save()){
+            if(Yii::app()->request->isAjaxRequest){
+                echo 'success';
+                Yii::app()->end();
+            }
+            else {
+                $this->redirect(array('view','id'=>$model->id));
+            }
+        }
+    }
+    if(Yii::app()->request->isAjaxRequest)
+        $this->renderPartial('create',array('model'=>$model), false, true);
+    else
+        $this->render('create',array('model'=>$model));
+ 
+}
 
 	/**
 	 * Updates a particular model.
@@ -88,19 +96,25 @@ class CrmClientsController extends Controller
 		$model=$this->loadModel($id);
 
 		// Uncomment the following line if AJAX validation is needed
-		// $this->performAjaxValidation($model);
-
-		if(isset($_POST['CrmClients']))
-		{
-			$model->attributes=$_POST['CrmClients'];
-			if($model->save())
-				$this->redirect(array('view','id'=>$model->id));
-		}
-
-		$this->render('update',array(
-			'model'=>$model,
-		));
-	}
+    // $this->performAjaxValidation($model);
+ 
+    if(isset($_POST['CrmClients'])){
+        $model->attributes=$_POST['CrmClients'];
+        if($model->save()){
+            if(Yii::app()->request->isAjaxRequest){
+                echo 'success';
+                Yii::app()->end();
+            }
+            else
+                $this->redirect(array('view','id'=>$model->id));
+        }
+    }
+    if(Yii::app()->request->isAjaxRequest)
+        $this->renderPartial('update',array('model'=>$model), false, true);
+    else
+        $this->render('update',array('model'=>$model));
+ 
+}   
 
 	/**
 	 * Deletes a particular model.

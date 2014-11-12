@@ -27,12 +27,39 @@
 
 	<?php echo $form->textFieldRow($model,'addon',array('class'=>'span5','maxlength'=>250)); ?>
 
-	<div class="form-actions">
-		<?php $this->widget('bootstrap.widgets.TbButton', array(
-			'buttonType'=>'submit',
-			'type'=>'primary',
-			'label'=>$model->isNewRecord ? 'Create' : 'Save',
-		)); ?>
-	</div>
-
+	<?php if (!Yii::app()->request->isAjaxRequest): ?>
+    <div class="row buttons ">
+        <?php echo CHtml::submitButton($model->isNewRecord ? 'Создать' : 'Сохранить'); ?>
+    </div>
+     
+    <?php else: ?>
+    <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
+        <div class="ui-dialog-buttonset">
+        <?php
+            $this->widget('zii.widgets.jui.CJuiButton', array(
+                'name'=>'submit_'.rand(),
+                'caption'=>$model->isNewRecord ? 'Создать' : 'Сохранить',
+                'htmlOptions'=>array(
+                    'ajax' => array(
+                        'url'=>$model->isNewRecord ? $this->createUrl('create') : $this->createUrl('update', array('id'=>$model->id)),
+                        'type'=>'post',
+                        'data'=>'js:jQuery(this).parents("form").serialize()',
+                        'success'=>'function(r){
+                            if(r=="success"){
+                                window.location.reload();
+                            }
+                            else{
+                                $("#create").html(r).dialog("open"); return false;
+                            }
+                        }', 
+                    ),
+                ),
+            ));
+        ?>
+        </div>
+    </div>
+    <?php endif; ?>
+ 
 <?php $this->endWidget(); ?>
+ 
+</div><!-- form -->
