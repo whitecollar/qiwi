@@ -216,3 +216,21 @@ Stack trace:
 #3 {main}
 REQUEST_URI=/qiwi/index.php?r=CrmClient
 ---
+2014/11/12 21:47:38 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Невозможно обработать запрос "CmServices".' in /var/www/html/frontend/www/framework/web/CWebApplication.php:286
+Stack trace:
+#0 /var/www/html/frontend/www/framework/web/CWebApplication.php(141): CWebApplication->runController('CmServices')
+#1 /var/www/html/frontend/www/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#2 /var/www/html/frontend/www/qiwi/index.php(13): CApplication->run()
+#3 {main}
+REQUEST_URI=/qiwi/index.php?r=CmServices
+---
+2014/11/12 21:48:16 [error] [exception.CHttpException.404] exception 'CHttpException' with message 'Системе не удалось найти запрашиваемое действие "admin".' in /var/www/html/frontend/www/framework/web/CController.php:483
+Stack trace:
+#0 /var/www/html/frontend/www/framework/web/CController.php(270): CController->missingAction('admin')
+#1 /var/www/html/frontend/www/framework/web/CWebApplication.php(282): CController->run('admin')
+#2 /var/www/html/frontend/www/framework/web/CWebApplication.php(141): CWebApplication->runController('crmServices/adm...')
+#3 /var/www/html/frontend/www/framework/base/CApplication.php(180): CWebApplication->processRequest()
+#4 /var/www/html/frontend/www/qiwi/index.php(13): CApplication->run()
+#5 {main}
+REQUEST_URI=/qiwi/index.php?r=crmServices/admin
+---
