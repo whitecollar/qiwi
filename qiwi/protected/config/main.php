@@ -7,7 +7,7 @@
 // CWebApplication properties can be configured here.
  
 Yii::setPathOfAlias('bootstrap', dirname(__FILE__).'/../extensions/bootstrap');
- 
+ Yii::setPathOfAlias('booster', dirname(__FILE__).'/../extensions/booster');
 return array(
       'aliases' => array(
       
@@ -73,14 +73,18 @@ return array(
  
     // application components
     'components'=>array(
+        /*
+         'bootstrap'=>array(
+                        'class'=>'ext.booster.components.Booster', 
+           'coreCss' => true,
+      'responsiveCss' => true,
+       'yiiCss' => true,
+             ),
+             
+             */
       'bootstrap'=>array(
                         'class'=>'ext.bootstrap.components.Bootstrap', // assuming you extracted bootstrap under extensions
-          // 'coreCss' => true,
-       // 'responsiveCss' => true,
-      //  'yiiCss' => true,
-                 
-                      // 'coreCss'=>true, // whether to register the Bootstrap core CSS (bootstrap.min.css)
-                       
+     
                         'plugins'=>array(
                             // Optionally you can configure the "global" plugins (button, popover, tooltip and transition)
                             // To prevent a plugin from being loaded set it to false as demonstrated below
