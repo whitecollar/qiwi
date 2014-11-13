@@ -4,12 +4,10 @@
 /* @var $form CActiveForm  */
 
 $this->pageTitle=Yii::app()->name . ' - Login';
-$this->breadcrumbs=array(
-	'Login',
-);
+
 ?>
 
-<h1>Login</h1>
+<h1>Loginw</h1>
 
 <p>Please fill out the following form with your login credentials:</p>
 
@@ -17,7 +15,8 @@ $this->breadcrumbs=array(
 
 <?php $form=$this->beginWidget('bootstrap.widgets.TbActiveForm', array(
 	'id'=>'login-form',
-    'type'=>'horizontal',
+        'type'=>'horizontal',
+        'htmlOptions' => array('class' => 'well'), // for inset effect
 	'enableClientValidation'=>true,
 	'clientOptions'=>array(
 		'validateOnSubmit'=>true,

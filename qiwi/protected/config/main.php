@@ -48,6 +48,10 @@ return array(
 	'bootstrap.gii',
     ),
 ),
+        
+         
+      
+      
 /////
 
 /*
@@ -73,6 +77,9 @@ return array(
  
     // application components
     'components'=>array(
+        
+        
+         
         /*
          'bootstrap'=>array(
                         'class'=>'ext.booster.components.Booster', 
@@ -103,6 +110,7 @@ return array(
             'css/bootstrap-responsive.min.css',
             ),
         'user'=>array(
+            'class' => 'WebUser',
             // enable cookie-based authentication
             'allowAutoLogin'=>true,
         ),
