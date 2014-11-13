@@ -13,7 +13,9 @@
 </head>
 
 <body>
-
+ <?php if (Yii::app()->user->isGuest) {
+   
+ } else {?>
 <?php $this->widget('bootstrap.widgets.TbNavbar',array(
     'items'=>array(
        // TbHtml::navbarSearchForm('#'),
@@ -43,7 +45,7 @@
 
 
 ?>
-
+<?php }?>
 <div class="container" id="page">
 
 
