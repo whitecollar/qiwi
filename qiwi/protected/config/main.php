@@ -84,7 +84,7 @@ return array(
              */
       'bootstrap'=>array(
                         'class'=>'ext.bootstrap.components.Bootstrap', // assuming you extracted bootstrap under extensions
-     
+
                         'plugins'=>array(
                             // Optionally you can configure the "global" plugins (button, popover, tooltip and transition)
                             // To prevent a plugin from being loaded set it to false as demonstrated below
