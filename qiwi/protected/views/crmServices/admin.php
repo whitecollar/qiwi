@@ -56,6 +56,7 @@ $('.search-form form').submit(function(){
 		'count',
 		array(
 			'class'=>'bootstrap.widgets.TbButtonColumn',
+                        'template'=>'{update}{view}',
 			'buttons' => array(
 				'update' => array(
 					'click'=>'function(){

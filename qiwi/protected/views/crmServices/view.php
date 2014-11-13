@@ -1,55 +1,82 @@
-<?php if(!Yii::app()->request->isAjaxRequest): ?>
 <?php
 $this->breadcrumbs=array(
 	'Crm Services'=>array('index'),
-	$model->name,
+	'Manage',
 );
 
 $this->menu=array(
 	array('label'=>'List CrmServices','url'=>array('index')),
-	array('label'=>'Create CrmServices','url'=>array('create')),
-	array('label'=>'Update CrmServices','url'=>array('update','id'=>$model->id)),
-	array('label'=>'Delete CrmServices','url'=>'#','linkOptions'=>array('submit'=>array('delete','id'=>$model->id),'confirm'=>'Are you sure you want to delete this item?')),
-	array('label'=>'Manage CrmServices','url'=>array('admin')),
+	array('label'=>'Create CrmServices', 'url'=>array('create'), 'linkOptions'=>array(
+		'ajax' => array(
+			'url'=>$this->createUrl('create'),
+			'success'=>'function(r){$("#TBDialogCrud").html(r).modal("show");}', 
+		),
+	)),
 );
+
+Yii::app()->clientScript->registerScript('search', "
+$('.search-button').click(function(){
+	$('.search-form').toggle();
+	return false;
+});
+$('.search-form form').submit(function(){
+	$.fn.yiiGridView.update('crm-services-grid', {
+		data: $(this).serialize()
+	});
+	return false;
+});
+");
 ?>
 
-<h1>View CrmServices #<?php echo $model->id; ?></h1>
-<?php endif; ?>
+<?php $this->beginWidget('bootstrap.widgets.TbModal', array('id'=>'TBDialogCrud')); ?>
+<?php $this->endWidget(); ?>
 
-<?php if(Yii::app()->request->isAjaxRequest): ?>
-<div class="modal-header">
-	<a class="close" data-dismiss="modal">&times;</a>
-	<h4>View People #<?php echo $model->name; ?></h4>
-       <?php echo $model->name;?>
-</div>
+<h1>Manage Crm Services</h1>
 
-<div class="modal-body">
-<?php endif; ?>
+    
 
-<?php $this->widget('bootstrap.widgets.TbDetailView',array(
-	'data'=>$model,
-	'attributes'=>array(
+<?php echo CHtml::link('Advanced Search','#',array('class'=>'search-button btn')); ?>
+<div class="search-form" style="display:none">
+<?php $this->renderPartial('_search',array(
+	'model'=>$model,
+)); ?>
+</div><!-- search-form -->
+
+<?php $this->widget('bootstrap.widgets.TbGridView',array(
+	'id'=>'crm-services-grid',
+         'type'          => 'striped bordered condensed',
+	'ajaxUpdate'=>false,
+	'dataProvider'=>$model->search(),
+	//'filter'=>$model,
+	'columns'=>array(
 		'id',
 		'id_salon',
 		'discount',
 		'name',
 		'count',
+		array(
+			'class'=>'bootstrap.widgets.TbButtonColumn',
+                        'template'=>'{update}{view}',
+			'buttons' => array(
+				'update' => array(
+					'click'=>'function(){
+						var url = $(this).attr("href");
+						$.get(url, function(r){
+							$("#TBDialogCrud").html(r).modal("show");
+						});
+						return false;
+					}',
+				),
+				'view' => array(
+					'click'=>'function(){
+						var url = $(this).attr("href");
+						$.get(url, function(r){
+							$("#TBDialogCrud").html(r).modal("show");
+						});
+						return false;
+					}',
+				),
+			),
+		),
 	),
 )); ?>
-
-<?php if(Yii::app()->request->isAjaxRequest): ?>
-</div>
-
-<div class="modal-footer">
-    <?php $this->widget('bootstrap.widgets.TbButton', array(
-        'label'=>'Закрыть',
-        'url'=>'#',
-        'htmlOptions'=>array(
-			'id'=>'btn-'.mt_rand(),
-			'data-dismiss'=>'modal'
-		),
-    )); ?>
-</div>
-
-<?php endif; ?>
