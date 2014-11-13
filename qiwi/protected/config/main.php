@@ -9,6 +9,7 @@
 Yii::setPathOfAlias('bootstrap', dirname(__FILE__).'/../extensions/bootstrap');
  Yii::setPathOfAlias('booster', dirname(__FILE__).'/../extensions/booster');
 return array(
+    
       'aliases' => array(
       
         'bootstrap' => realpath(__DIR__ . '/../extensions/bootstrap'), // Линк на бутстрап
@@ -77,7 +78,12 @@ return array(
  
     // application components
     'components'=>array(
-        
+        'authManager' => array(
+    // Будем использовать свой менеджер авторизации
+    'class' => 'PhpAuthManager',
+    // Роль по умолчанию. Все, кто не админы, модераторы и юзеры — гости.
+    'defaultRoles' => array('guest'),
+),
         
          
         /*
