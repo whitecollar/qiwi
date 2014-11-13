@@ -42,9 +42,9 @@
 	<div class="clear"></div>
 
 	<div id="footer">
-		Copyright &copy; <?php echo date('Y'); ?> by My Companrrrry.<br/>
+		Copyright &copy; <?php echo date('Y'); ?> by Laboratory unconventional solutions LTD.<br/>
 		All Rights Reserved.<br/>
-		<?php echo Yii::powered(); ?>
+		
 	</div><!-- footer -->
 
 </div><!-- page -->
