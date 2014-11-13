@@ -20,7 +20,8 @@ $this->menu=array(
 <?php if(Yii::app()->request->isAjaxRequest): ?>
 <div class="modal-header">
 	<a class="close" data-dismiss="modal">&times;</a>
-	<h4>View People #<?php echo $model->id; ?></h4>
+	<h4>View People #<?php echo $model->name; ?></h4>
+       <?php echo $model->name;?>
 </div>
 
 <div class="modal-body">

@@ -15,7 +15,7 @@ return array(
     ),
     
     'basePath'=>dirname(__FILE__).DIRECTORY_SEPARATOR.'..',
-    'name'=>'My Web Application',
+    'name'=>'[QiWi]-CRM',
     'language'=> 'ru',
  
     // preloading 'log' component
@@ -25,7 +25,8 @@ return array(
     'import'=>array(
         'application.models.*',
         'application.components.*',
-        'bootstrap.helpers.TbHtml',
+        'bootstrap.helpers.*',
+        
     ),
     'theme'=>'bootstrap', //подключение темы
     'modules'=>array(
