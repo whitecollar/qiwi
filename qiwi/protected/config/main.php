@@ -146,6 +146,8 @@ return array(
             'username' => 'lex',
             'password' => 'lexroot',
             'charset' => 'utf8',
+             'enableProfiling'=>true,
+             'schemaCachingDuration'=>3600,
         ),
         
         'errorHandler'=>array(

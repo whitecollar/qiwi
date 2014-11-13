@@ -1,6 +1,6 @@
 <?php
 
-class CrmClientsController extends Controller
+class CrmWorkerController extends Controller
 {
 	/**
 	 * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
@@ -23,7 +23,7 @@ class CrmClientsController extends Controller
 	 * This method is used by the 'accessControl' filter.
 	 * @return array access control rules
 	 */
- public function accessRules()
+	  public function accessRules()
     {
       return array(
         array('allow',
@@ -40,16 +40,16 @@ class CrmClientsController extends Controller
         );
     }
 
-
 	/**
 	 * Displays a particular model.
 	 * @param integer $id the ID of the model to be displayed
 	 */
 	public function actionView($id)
 	{
-		$this->render('view',array(
-			'model'=>$this->loadModel($id),
-		));
+		if(Yii::app()->request->isAjaxRequest)
+			$this->renderPartial('view',array('model'=>$this->loadModel($id)));
+		else
+			$this->render('view',array('model'=>$this->loadModel($id)));
 	}
 
 	/**
@@ -58,30 +58,28 @@ class CrmClientsController extends Controller
 	 */
 	public function actionCreate()
 	{
-		$model=new CrmClients;
+		$model=new CrmWorker;
 
-		  
-    // Uncomment the following line if AJAX validation is needed
-    // $this->performAjaxValidation($model);
-     
-    if(isset($_POST['CrmClients'])){
-        $model->attributes=$_POST['CrmClients'];
-        if($model->save()){
-            if(Yii::app()->request->isAjaxRequest){
-                echo 'success';
-                Yii::app()->end();
-            }
-            else {
-                $this->redirect(array('view','id'=>$model->id));
-            }
-        }
-    }
-    if(Yii::app()->request->isAjaxRequest)
-        $this->renderPartial('create',array('model'=>$model), false, true);
-    else
-        $this->render('create',array('model'=>$model));
- 
-}
+		// Uncomment the following line if AJAX validation is needed
+		// $this->performAjaxValidation($model);
+		
+		if(isset($_POST['CrmWorker'])){
+			$model->attributes=$_POST['CrmWorker'];
+			if($model->save()){
+				if(Yii::app()->request->isAjaxRequest){
+					echo 'success';
+					Yii::app()->end();
+				}
+				else {
+					$this->redirect(array('view','id'=>$model->id));
+				}
+			}
+		}
+		if(Yii::app()->request->isAjaxRequest)
+			$this->renderPartial('_form',array('model'=>$model), false, true);
+		else
+			$this->render('create',array('model'=>$model));
+	}
 
 	/**
 	 * Updates a particular model.
@@ -93,25 +91,27 @@ class CrmClientsController extends Controller
 		$model=$this->loadModel($id);
 
 		// Uncomment the following line if AJAX validation is needed
-    // $this->performAjaxValidation($model);
- 
-    if(isset($_POST['CrmClients'])){
-        $model->attributes=$_POST['CrmClients'];
-        if($model->save()){
-            if(Yii::app()->request->isAjaxRequest){
-                echo 'success';
-                Yii::app()->end();
-            }
-            else
-                $this->redirect(array('view','id'=>$model->id));
-        }
-    }
-    if(Yii::app()->request->isAjaxRequest)
-        $this->renderPartial('update',array('model'=>$model), false, true);
-    else
-        $this->render('update',array('model'=>$model));
- 
-}   
+		// $this->performAjaxValidation($model);
+
+		if(isset($_POST['CrmWorker']))
+		{
+			$model->attributes=$_POST['CrmWorker'];
+			if($model->save()) {
+				if(Yii::app()->request->isAjaxRequest){
+					echo 'success';
+					Yii::app()->end();
+				}
+				else {
+					$this->redirect(array('view','id'=>$model->id));
+				}
+			}
+		}
+		if(Yii::app()->request->isAjaxRequest)
+			$this->renderPartial('_form',array('model'=>$model), false, true);
+        
+		else
+			$this->render('update',array('model'=>$model));
+	}
 
 	/**
 	 * Deletes a particular model.
@@ -138,7 +138,7 @@ class CrmClientsController extends Controller
 	 */
 	public function actionIndex()
 	{
-		$dataProvider=new CActiveDataProvider('CrmClients');
+		$dataProvider=new CActiveDataProvider('CrmWorker');
 		$this->render('index',array(
 			'dataProvider'=>$dataProvider,
 		));
@@ -149,10 +149,10 @@ class CrmClientsController extends Controller
 	 */
 	public function actionAdmin()
 	{
-		$model=new CrmClients('search');
+		$model=new CrmWorker('search');
 		$model->unsetAttributes();  // clear any default values
-		if(isset($_GET['CrmClients']))
-			$model->attributes=$_GET['CrmClients'];
+		if(isset($_GET['CrmWorker']))
+			$model->attributes=$_GET['CrmWorker'];
 
 		$this->render('admin',array(
 			'model'=>$model,
@@ -166,7 +166,7 @@ class CrmClientsController extends Controller
 	 */
 	public function loadModel($id)
 	{
-		$model=CrmClients::model()->findByPk($id);
+		$model=CrmWorker::model()->findByPk($id);
 		if($model===null)
 			throw new CHttpException(404,'The requested page does not exist.');
 		return $model;
@@ -178,7 +178,7 @@ class CrmClientsController extends Controller
 	 */
 	protected function performAjaxValidation($model)
 	{
-		if(isset($_POST['ajax']) && $_POST['ajax']==='crm-clients-form')
+		if(isset($_POST['ajax']) && $_POST['ajax']==='crm-worker-form')
 		{
 			echo CActiveForm::validate($model);
 			Yii::app()->end();
