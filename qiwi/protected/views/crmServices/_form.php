@@ -21,9 +21,20 @@
 
 	<?php echo $form->textFieldRow($model,'discount',array('class'=>'span5')); ?>
 
-	<?php echo $form->textFieldRow($model,'name',array('class'=>'span5','maxlength'=>200)); ?>
+	<?php //echo $form->textFieldRow($model,'name',array('class'=>'span5','maxlength'=>200)); 
+              
+        echo $form->dropDownListRow($model, 'name',(CHtml::listData(User::model()->findAll(),'id', 'login')),  array('multiple'=>true, 'size' => 10, 'key'=>'название поля'));
+	 
+           //print_r (CHtml::listData(User::model()->findAll(),'id', 'login'));
+          //$models = User::model()->findAll();
 
-	<?php echo $form->textFieldRow($model,'count',array('class'=>'span5')); ?>
+     // format models resulting using listData    
+     //$list = CHtml::listData($models,
+       //         'id', 'login');   
+
+     //print_r($list);
+        ?>     
+                  <?php echo $form->textFieldRow($model,'count',array('class'=>'span5')); ?>
 
 	<?php if (!Yii::app()->request->isAjaxRequest): ?>
 	<div class="form-actions">

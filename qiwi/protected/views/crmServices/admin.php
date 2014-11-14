@@ -39,7 +39,7 @@ $('.search-form form').submit(function(){
             ));
             $this->widget('bootstrap.widgets.TbMenu', array(
                 'items'=>$this->menu,
-                'htmlOptions'=>array('class'=>' '),
+                'htmlOptions'=>array('class'=>'operations'),
             ));
             $this->endWidget();
         ?>
