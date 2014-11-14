@@ -1,6 +1,6 @@
 <?php /* @var $this Controller */ ?>
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ru" lang="ru">
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<meta name="language" content="ru" />
@@ -24,19 +24,24 @@
             
             'items'=>array(
                
-                array('label'=>'Home', 'url'=>array('/site/index')),
-                array('label'=>'About', 'url'=>array('/site/page', 'view'=>'about')),
-                array('label'=>'Contact', 'url'=>array('/site/contact')),
-                array('label'=>'Login', 'url'=>array('/site/login'), 'visible'=>Yii::app()->user->isGuest),
-                array('label'=>'Logout ('.Yii::app()->user->name.')', 'url'=>array('/site/logout'), 'visible'=>!Yii::app()->user->isGuest),
-                   array('label' => 'Dropdown', 'items' => array(
-            array('label' => 'Услуги', 'url' => '?r=crmServices/admin'),
-            array('label' => 'Another action', 'url' => '#'),
-            array('label' => 'Something else here', 'url' => '#'),
-            TbHtml::menuDivider(),
-            array('label' => 'Separate link', 'url' => '#'),
+                array('label'=>'Заказ', 'url'=>array('main/admin')),
+                array('label'=>'Календарь', 'url'=>array('/site/page', 'view'=>'about')),
+                array('label'=>'Клиенты', 'url'=>array('/site/contact')),
+                
+                            array('label' => 'Настройки', 'items' => array(
+                                  array('label' => 'Услуги', 'items' => array(   
+                                        array('label' => 'Редактирование', 'url' => '?r=crmServices/admin' ),
+                                        array('label' => 'Категории', 'url' => '?r=crmServiceCategory/admin' ),
+                                 ) ),
+                            
+                            array('label' => 'Another action', 'url' => '#'),
+                            array('label' => 'Something else here', 'url' => '#'),
+                            TbHtml::menuDivider(),
+                            array('label' => 'Separate link', 'url' => '#'),
         ),
+                                
     ),
+                array('label'=>'Выход ('.Yii::app()->user->name.')', 'url'=>array('/site/logout'), 'visible'=>!Yii::app()->user->isGuest),
                
             ),
         ),
