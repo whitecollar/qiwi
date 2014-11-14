@@ -45,7 +45,7 @@ class CrmServices extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		 return array(
-                'User' => array(self::HAS_MANY, 'User', 'id'),
+                'CrmServiceCategory' => array(self::HAS_MANY, 'CrmServiceCategory', 'id'),
         );
 	}
 

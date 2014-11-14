@@ -23,7 +23,21 @@
 
 	<?php //echo $form->textFieldRow($model,'name',array('class'=>'span5','maxlength'=>200)); 
               
-        echo $form->dropDownListRow($model, 'name',(CHtml::listData(User::model()->findAll(),'id', 'login')),  array('multiple'=>true, 'size' => 10, 'key'=>'название поля'));
+        
+        $models = CrmServiceCategory::model()->findAll();
+
+// format models as $key=>$value with listData
+        $list = CHtml::listData($models,
+                'id', 'name');
+echo CHtml::dropDownList( 'name', $model,
+              $list,
+              array('empty' => '(Select a category','class'=>'span5','maxlength'=>200));
+        
+        
+        
+        
+        
+       // echo $form->dropDownList($model, 'name',(CHtml::listData(CrmServiceCategory::model()->findAll(),'id', 'name')),  array('multiple'=>true, 'size' => 10, 'key'=>'название поля'));
 	 
     
         ?>     
