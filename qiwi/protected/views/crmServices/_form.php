@@ -25,14 +25,7 @@
               
         echo $form->dropDownListRow($model, 'name',(CHtml::listData(User::model()->findAll(),'id', 'login')),  array('multiple'=>true, 'size' => 10, 'key'=>'название поля'));
 	 
-           //print_r (CHtml::listData(User::model()->findAll(),'id', 'login'));
-          //$models = User::model()->findAll();
-
-     // format models resulting using listData    
-     //$list = CHtml::listData($models,
-       //         'id', 'login');   
-
-     //print_r($list);
+    
         ?>     
                   <?php echo $form->textFieldRow($model,'count',array('class'=>'span5')); ?>
 
