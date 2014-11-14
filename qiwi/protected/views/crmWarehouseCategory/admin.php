@@ -1,12 +1,12 @@
 <?php
 $this->breadcrumbs=array(
-	'Crm Services'=>array('index'),
+	'Crm Warehouse Categories'=>array('index'),
 	'Manage',
 );
 
 $this->menu=array(
-	
-	array('label'=>'Добавить услугу', 'url'=>array('create'), 'linkOptions'=>array(
+	array('label'=>'List CrmWarehouseCategory','url'=>array('index')),
+	array('label'=>'Create CrmWarehouseCategory', 'url'=>array('create'), 'linkOptions'=>array(
 		'ajax' => array(
 			'url'=>$this->createUrl('create'),
 			'success'=>'function(r){$("#TBDialogCrud").html(r).modal("show");}', 
@@ -20,7 +20,7 @@ $('.search-button').click(function(){
 	return false;
 });
 $('.search-form form').submit(function(){
-	$.fn.yiiGridView.update('crm-services-grid', {
+	$.fn.yiiGridView.update('crm-warehouse-category-grid', {
 		data: $(this).serialize()
 	});
 	return false;
@@ -31,34 +31,30 @@ $('.search-form form').submit(function(){
 <?php $this->beginWidget('bootstrap.widgets.TbModal', array('id'=>'TBDialogCrud')); ?>
 <?php $this->endWidget(); ?>
 
-<h1>Управление услугами</h1>
+<h1>Manage Crm Warehouse Categories</h1>
 
-  <?php
-            $this->beginWidget('zii.widgets.CPortlet', array(
-                'title'=>' ',
-            ));
-            $this->widget('bootstrap.widgets.TbMenu', array(
-                'items'=>$this->menu,
-                'htmlOptions'=>array('class'=>' '),
-            ));
-            $this->endWidget();
-        ?>
+<p>
+You may optionally enter a comparison operator (<b>&lt;</b>, <b>&lt;=</b>, <b>&gt;</b>, <b>&gt;=</b>, <b>&lt;&gt;</b>
+or <b>=</b>) at the beginning of each of your search values to specify how the comparison should be done.
+</p>
 
-    <?php $this->widget('bootstrap.widgets.TbGridView',array(
-	'id'=>'crm-services-grid',
-         'type'          => 'striped bordered condensed',
+<?php echo CHtml::link('Advanced Search','#',array('class'=>'search-button btn')); ?>
+<div class="search-form" style="display:none">
+<?php $this->renderPartial('_search',array(
+	'model'=>$model,
+)); ?>
+</div><!-- search-form -->
+
+<?php $this->widget('bootstrap.widgets.TbGridView',array(
+	'id'=>'crm-warehouse-category-grid',
 	'ajaxUpdate'=>false,
 	'dataProvider'=>$model->search(),
-	//'filter'=>$model,
+	'filter'=>$model,
 	'columns'=>array(
 		'id',
-		'id_salon',
-		'discount',
 		'name',
-		'count',
 		array(
 			'class'=>'bootstrap.widgets.TbButtonColumn',
-                        'template'=>'{update}{view}{delete}',
 			'buttons' => array(
 				'update' => array(
 					'click'=>'function(){
