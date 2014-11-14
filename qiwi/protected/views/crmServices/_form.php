@@ -1,7 +1,7 @@
 <?php if (Yii::app()->request->isAjaxRequest): ?>
 <div class="modal-header">
 	<a class="close" data-dismiss="modal">&times;</a>
-	<h4><?php echo $model->isNewRecord ? 'Create CrmServices' : 'Update CrmServices #'.$model->id ?></h4>
+	<h4><?php echo $model->isNewRecord ? 'Добавление услуги' : 'Update CrmServices #'.$model->id ?></h4>
 </div>
 
 <div class="modal-body">
@@ -13,7 +13,7 @@
 	'enableAjaxValidation'=>false,
 )); ?>
 
-	<p class="help-block">Fields with <span class="required">*</span> are required.</p>
+	<p class="help-block">Поля обезательные для заполнения <span class="required">*</span> </p>
 
 	<?php echo $form->errorSummary($model); ?>
 
@@ -21,25 +21,23 @@
 
 	<?php echo $form->textFieldRow($model,'discount',array('class'=>'span5')); ?>
 
-	<?php //echo $form->textFieldRow($model,'name',array('class'=>'span5','maxlength'=>200)); 
+	<?php //Злоебучий дроплист для категорий если надо где применять пример смотри здесь это с переписанным контролером 
               
         
         $models = CrmServiceCategory::model()->findAll();
 
-// format models as $key=>$value with listData
+
         $list = CHtml::listData($models,
                 'id', 'name');
-echo CHtml::dropDownList( 'name', $model,
+            echo $form->dropDownList(  $model,'name',
               $list,
-              array('empty' => '(Select a category','class'=>'span5','maxlength'=>200));
+              array('empty' => 'Выберите категорию','class'=>'span5','maxlength'=>200));
         
         
         
         
         
-       // echo $form->dropDownList($model, 'name',(CHtml::listData(CrmServiceCategory::model()->findAll(),'id', 'name')),  array('multiple'=>true, 'size' => 10, 'key'=>'название поля'));
-	 
-    
+     
         ?>     
                   <?php echo $form->textFieldRow($model,'count',array('class'=>'span5')); ?>
 
