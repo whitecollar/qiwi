@@ -31,9 +31,9 @@
                 'id', 'name');
             echo $form->dropDownList(  $model,'name',
               $list,
-              array('empty' => 'Выберите категорию','class'=>'span5','maxlength'=>200));
+              array('empty' => 'Выбрать категорию','class'=>'span5','maxlength'=>200));
         
-        
+      
         
         
         

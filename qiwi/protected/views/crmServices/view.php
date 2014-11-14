@@ -27,13 +27,21 @@ $this->menu=array(
 <div class="modal-body">
 <?php endif; ?>
 
-<?php $this->widget('bootstrap.widgets.TbDetailView',array(
+<?php 
+$models = CrmServiceCategory::model()->findAll();
+$list = CHtml::listData($models, 'id', 'name');
+$this->widget('bootstrap.widgets.TbDetailView',array(
 	'data'=>$model,
 	'attributes'=>array(
 		'id',
 		'id_salon',
 		'discount',
-		'name',
+		  array(
+                        'name'          =>  'name', 
+                        'value' =>  $list[$model->name],
+                        'type'          =>  'html',
+            
+        ),
                 'count',
 	),
 )); ?>
