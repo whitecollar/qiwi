@@ -13,7 +13,13 @@
 	<br />
 
 	<b><?php echo CHtml::encode($data->getAttributeLabel('name')); ?>:</b>
-	<?php echo CHtml::encode($data->name); ?>
+	<?php echo CHtml::encode($data->name); 
+         $models = CrmServiceCategory::model()->findByPK($data->name);
+         echo $models->name;   
+         echo $data->name;
+         echo 'fdsfdsf';
+        ?>
+        
 	<br />
 
 	<b><?php echo CHtml::encode($data->getAttributeLabel('count')); ?>:</b>

@@ -34,7 +34,7 @@ $this->menu=array(
 		'id_salon',
 		'discount',
 		'name',
-		'count',
+                'count',
 	),
 )); ?>
 
