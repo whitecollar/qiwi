@@ -48,19 +48,25 @@ $('.search-form form').submit(function(){
    
     $models = CrmServiceCategory::model()->findAll();
     $list = CHtml::listData($models, 'id', 'name');
-   
-   /* if (empty($list[$model->name])){
-    $category = $list[$model->name];
+   /*
+ if (1==1){
+    $category = $list[3];
 
-    } else {$category='Не установленна';
+    } else { 
+        $category='Не установленна';
     
     }
-    */	  
-          
-        
-    
-    
-    
+   	  
+ */   
+   //$cat='"'.$list[$model->name].'"';
+
+
+
+
+
+
+
+
     $this->widget('bootstrap.widgets.TbGridView',array(
 	'id'=>'crm-services-grid',
          'type'          => 'striped bordered condensed',
@@ -71,7 +77,12 @@ $('.search-form form').submit(function(){
 		'id',
 		'id_salon',
 		'discount',
-			   'name',
+			  array(
+                             'type'=>'raw',
+                                'name'=>'name',
+                             'value'=>'$data->getFieldAsString()',
+                               //'value'=>'"'.$list[3].'"' ,
+        ),  
 		'count',
                                 
 		array(

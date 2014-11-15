@@ -13,7 +13,12 @@
 class CrmServices extends CActiveRecord
 {
     
-        
+        function getFieldAsString(){
+             $models = CrmServiceCategory::model()->findAll();
+    $arr = CHtml::listData($models, 'id', 'name');
+//$arr=array( '1'=>"ВКЛ", '0'=>"ВЫКЛ");
+return $arr[$this->name];
+}
     
     
         
