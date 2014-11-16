@@ -158,20 +158,21 @@ return array(
             'errorAction'=>'site/error',
         ),
         'log'=>array(
-            'class'=>'CLogRouter',
-            'routes'=>array(
-                array(
-                    'class'=>'CFileLogRoute',
-                    'levels'=>'error, warning',
-                ),
-                // uncomment the following to show log messages on web pages
-                /*
-                array(
-                    'class'=>'CWebLogRoute',
-                ),
-                */
-            ),
-        ),
+	'class'=>'CLogRouter',
+	'enabled'=>YII_DEBUG,
+	'routes'=>array(
+		#...
+		array(
+			'class'=>'CFileLogRoute',
+			'levels'=>'error, warning',
+		),
+		array(
+			'class'=>'application.extensions.yii-debug-toolbar.YiiDebugToolbarRoute',
+			'ipFilters'=>array('127.0.0.1','178.169.92.254'),
+		),
+	),
+),
+
     ),
  
     // application-level parameters that can be accessed
