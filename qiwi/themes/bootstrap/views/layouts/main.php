@@ -21,14 +21,15 @@
    //'brand' => CHtml::encode($this->pageTitle),
   //  'brandUrl' => '#',
     'collapse' => true,
-     //'fixed' => false,
-        'fluid' => false,
-   // 'type' => 'inverse',
+  //'fixed' => false,
+   // 'fluid' => false,
+  // 'type' => 'inverse',
     'items'=>array(
-           'collapse'=>true,
-       // TbHtml::navbarSearchForm('#'),
+    //'collapse'=>true,
+  // TbHtml::navbarSearchForm('#'),
+        
         array(
-            'class'=>'bootstrap.widgets.TbMenu',
+            'class'=>'bootstrap.widgets.TbNav',
             
             'items'=>array(
                
@@ -36,8 +37,13 @@
                 array('label'=>'Календарь', 'url'=>array('/site/page', 'view'=>'about')),
                 array('label'=>'Клиенты', 'url'=>array('/site/contact')),
               //  TbHtml::menuDivider(), разделитель
+                
                             array('label' => 'Настройки', 'items' => array(
                                   array('label' => 'Услуги', 'items' => array(   
+                                        array('label' => 'Редактирование', 'url' => '?r=crmServices/admin' ),
+                                        array('label' => 'Категории', 'url' => '?r=crmServiceCategory/admin' ),
+                                 ) ),
+                                   array('label' => 'Услуги', 'items' => array(   
                                         array('label' => 'Редактирование', 'url' => '?r=crmServices/admin' ),
                                         array('label' => 'Категории', 'url' => '?r=crmServiceCategory/admin' ),
                                  ) ),

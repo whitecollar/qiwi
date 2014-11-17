@@ -30,6 +30,9 @@ return array(
         'application.models.*',
         'application.components.*',
         'bootstrap.helpers.*',
+          'bootstrap.helpers.TbHtml',
+        'bootstrap.helpers.TbArray',
+        'bootstrap.behaviors.TbWidget',
         
     ),
     'theme'=>'bootstrap', //подключение темы
