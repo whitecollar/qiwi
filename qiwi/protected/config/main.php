@@ -151,6 +151,8 @@ return array(
             'charset' => 'utf8',
              'enableProfiling'=>true,
              'schemaCachingDuration'=>3600,
+           
+             'enableParamLogging'=>true,
         ),
         
         'errorHandler'=>array(

@@ -7,16 +7,15 @@ $this->pageTitle=Yii::app()->name . ' - Login';
 
 ?>
 
-<h1>Loginw</h1>
 
-<p>Please fill out the following form with your login credentials:</p>
 
-<div class="form">
+
+<div class="form-signin">
 
 <?php $form=$this->beginWidget('bootstrap.widgets.TbActiveForm', array(
 	'id'=>'login-form',
         'type'=>'horizontal',
-        'htmlOptions' => array('class' => 'well'), // for inset effect
+        'htmlOptions' => array('class' => 'well center'), // for inset effect
 	'enableClientValidation'=>true,
 	'clientOptions'=>array(
 		'validateOnSubmit'=>true,
@@ -28,7 +27,7 @@ $this->pageTitle=Yii::app()->name . ' - Login';
 	<?php echo $form->textFieldRow($model,'username'); ?>
 
 	<?php echo $form->passwordFieldRow($model,'password',array(
-        'hint'=>'Hint: You may login with <kbd>demo</kbd>/<kbd>demo</kbd> or <kbd>admin</kbd>/<kbd>admin</kbd>',
+        'hint'=>'',
     )); ?>
 
 	<?php echo $form->checkBoxRow($model,'rememberMe'); ?>
@@ -43,4 +42,4 @@ $this->pageTitle=Yii::app()->name . ' - Login';
 
 <?php $this->endWidget(); ?>
 
-</div><!-- form -->
+</div>
