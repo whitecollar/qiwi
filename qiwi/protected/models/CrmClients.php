@@ -15,6 +15,8 @@
  * @property integer $flat
  * @property string $birthday
  * @property string $addon
+ * @property string $date_in
+ * @property integer $postcount
  */
 class CrmClients extends CActiveRecord
 {
@@ -35,15 +37,15 @@ class CrmClients extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('type, phone, login, name', 'required'),
-			array('phone, login, flat', 'numerical', 'integerOnly'=>true),
-			array('type, birthday', 'length', 'max'=>20),
+			array('phone, login, flat, postcount', 'numerical', 'integerOnly'=>true),
+			array('type, birthday, date_in', 'length', 'max'=>20),
 			array('pass', 'length', 'max'=>40),
 			array('street, name', 'length', 'max'=>200),
 			array('house', 'length', 'max'=>6),
 			array('addon', 'length', 'max'=>250),
 			// The following rule is used by search().
 			// @todo Please remove those attributes that should not be searched.
-			array('id, type, phone, login, pass, street, name, house, flat, birthday, addon', 'safe', 'on'=>'search'),
+			array('id, type, phone, login, pass, street, name, house, flat, birthday, addon, date_in, postcount', 'safe', 'on'=>'search'),
 		);
 	}
 
@@ -75,6 +77,8 @@ class CrmClients extends CActiveRecord
 			'flat' => 'Flat',
 			'birthday' => 'Birthday',
 			'addon' => 'Addon',
+			'date_in' => 'Date In',
+			'postcount' => 'Postcount',
 		);
 	}
 
@@ -107,6 +111,8 @@ class CrmClients extends CActiveRecord
 		$criteria->compare('flat',$this->flat);
 		$criteria->compare('birthday',$this->birthday,true);
 		$criteria->compare('addon',$this->addon,true);
+		$criteria->compare('date_in',$this->date_in,true);
+		$criteria->compare('postcount',$this->postcount);
 
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,

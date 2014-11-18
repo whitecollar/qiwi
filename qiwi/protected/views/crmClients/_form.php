@@ -1,3 +1,13 @@
+<?php if (Yii::app()->request->isAjaxRequest): ?>
+<div class="modal-header">
+	<a class="close" data-dismiss="modal">&times;</a>
+	<h4><?php echo $model->isNewRecord ? 'Create CrmClients' : 'Update CrmClients #'.$model->id ?></h4>
+</div>
+
+<div class="modal-body">
+<?php endif; ?>
+
+
 <?php $form=$this->beginWidget('bootstrap.widgets.TbActiveForm',array(
 	'id'=>'crm-clients-form',
 	'enableAjaxValidation'=>false,
@@ -27,39 +37,53 @@
 
 	<?php echo $form->textFieldRow($model,'addon',array('class'=>'span5','maxlength'=>250)); ?>
 
+	<?php echo $form->textFieldRow($model,'date_in',array('class'=>'span5','maxlength'=>20)); ?>
+
+	<?php echo $form->textFieldRow($model,'postcount',array('class'=>'span5')); ?>
+
 	<?php if (!Yii::app()->request->isAjaxRequest): ?>
-    <div class="row buttons ">
-        <?php echo CHtml::submitButton($model->isNewRecord ? 'Создать' : 'Сохранить'); ?>
-    </div>
-     
-    <?php else: ?>
-    <div class="ui-dialog-buttonpane ui-widget-content ui-helper-clearfix">
-        <div class="ui-dialog-buttonset">
-        <?php
-            $this->widget('zii.widgets.jui.CJuiButton', array(
-                'name'=>'submit_'.rand(),
-                'caption'=>$model->isNewRecord ? 'Создать' : 'Сохранить',
-                'htmlOptions'=>array(
-                    'ajax' => array(
-                        'url'=>$model->isNewRecord ? $this->createUrl('create') : $this->createUrl('update', array('id'=>$model->id)),
-                        'type'=>'post',
-                        'data'=>'js:jQuery(this).parents("form").serialize()',
-                        'success'=>'function(r){
-                            if(r=="success"){
-                                window.location.reload();
-                            }
-                            else{
-                                $("#create").html(r).dialog("open"); return false;
-                            }
-                        }', 
-                    ),
-                ),
-            ));
-        ?>
-        </div>
-    </div>
-    <?php endif; ?>
- 
+	<div class="form-actions">
+		<?php $this->widget('bootstrap.widgets.TbButton', array(
+			'buttonType'=>'submit',
+			'type'=>'primary',
+			'label'=>$model->isNewRecord ? 'Create' : 'Save',
+		)); ?>
+	</div>
+	<?php endif; ?>
 <?php $this->endWidget(); ?>
- 
-</div><!-- form -->
+
+<?php if (Yii::app()->request->isAjaxRequest): ?>
+</div>
+
+<div class="modal-footer">
+    <?php $this->widget('bootstrap.widgets.TbButton', array(
+        'type'=>'primary',
+        'label'=>$model->isNewRecord ? 'Создать' : 'Сохранить изменения',
+        'url'=>'#',
+		'htmlOptions'=>array(
+			'id'=>'submit-'.mt_rand(),
+			'ajax' => array(
+				'url'=>$model->isNewRecord ? $this->createUrl('create') : $this->createUrl('update', array('id'=>$model->id)),
+				'type'=>'post',
+				'data'=>'js:$(this).parent().parent().find("form").serialize()',
+				'success'=>'function(r){
+					if(r=="success"){
+						window.location.reload();
+					}
+					else{
+						$("#TBDialogCrud").html(r).modal("show");
+					}
+				}', 
+			),
+		),
+    )); ?>
+    <?php $this->widget('bootstrap.widgets.TbButton', array(
+        'label'=>'Закрыть',
+        'url'=>'#',
+        'htmlOptions'=>array(
+			'id'=>'btn-'.mt_rand(),
+			'data-dismiss'=>'modal'
+		),
+    )); ?>
+</div>
+<?php endif; ?>

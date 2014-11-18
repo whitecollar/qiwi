@@ -25,6 +25,10 @@
 
 	<?php echo $form->textFieldRow($model,'addon',array('class'=>'span5','maxlength'=>250)); ?>
 
+	<?php echo $form->textFieldRow($model,'date_in',array('class'=>'span5','maxlength'=>20)); ?>
+
+	<?php echo $form->textFieldRow($model,'postcount',array('class'=>'span5')); ?>
+
 	<div class="form-actions">
 		<?php $this->widget('bootstrap.widgets.TbButton', array(
 			'buttonType'=>'submit',

@@ -23,23 +23,26 @@ class CrmClientsController extends Controller
 	 * This method is used by the 'accessControl' filter.
 	 * @return array access control rules
 	 */
- public function accessRules()
-    {
-      return array(
-        array('allow',
-            'actions'=>array('index','view','group','create','update'),
-            'roles'=>array('user'),
-        ),
-        array('allow',
-            'actions'=>array('delete','admin'),
-            'roles'=>array('root'),
-        ),
-        array('deny',  // deny all users
-            'users'=>array('*'),
-        ),
-        );
-    }
-
+	public function accessRules()
+	{
+		return array(
+			array('allow',  // allow all users to perform 'index' and 'view' actions
+				'actions'=>array('index','view'),
+				'users'=>array('*'),
+			),
+			array('allow', // allow authenticated user to perform 'create' and 'update' actions
+				'actions'=>array('create','update'),
+				'users'=>array('@'),
+			),
+			array('allow', // allow admin user to perform 'admin' and 'delete' actions
+				'actions'=>array('admin','delete'),
+				'users'=>array('admin'),
+			),
+			array('deny',  // deny all users
+				'users'=>array('*'),
+			),
+		);
+	}
 
 	/**
 	 * Displays a particular model.
@@ -47,9 +50,10 @@ class CrmClientsController extends Controller
 	 */
 	public function actionView($id)
 	{
-		$this->render('view',array(
-			'model'=>$this->loadModel($id),
-		));
+		if(Yii::app()->request->isAjaxRequest)
+			$this->renderPartial('view',array('model'=>$this->loadModel($id)));
+		else
+			$this->render('view',array('model'=>$this->loadModel($id)));
 	}
 
 	/**
@@ -60,28 +64,26 @@ class CrmClientsController extends Controller
 	{
 		$model=new CrmClients;
 
-		  
-    // Uncomment the following line if AJAX validation is needed
-    // $this->performAjaxValidation($model);
-     
-    if(isset($_POST['CrmClients'])){
-        $model->attributes=$_POST['CrmClients'];
-        if($model->save()){
-            if(Yii::app()->request->isAjaxRequest){
-                echo 'success';
-                Yii::app()->end();
-            }
-            else {
-                $this->redirect(array('view','id'=>$model->id));
-            }
-        }
-    }
-    if(Yii::app()->request->isAjaxRequest)
-        $this->renderPartial('create',array('model'=>$model), false, true);
-    else
-        $this->render('create',array('model'=>$model));
- 
-}
+		// Uncomment the following line if AJAX validation is needed
+		// $this->performAjaxValidation($model);
+		
+		if(isset($_POST['CrmClients'])){
+			$model->attributes=$_POST['CrmClients'];
+			if($model->save()){
+				if(Yii::app()->request->isAjaxRequest){
+					echo 'success';
+					Yii::app()->end();
+				}
+				else {
+					$this->redirect(array('view','id'=>$model->id));
+				}
+			}
+		}
+		if(Yii::app()->request->isAjaxRequest)
+			$this->renderPartial('_form',array('model'=>$model), false, true);
+		else
+			$this->render('create',array('model'=>$model));
+	}
 
 	/**
 	 * Updates a particular model.
@@ -93,25 +95,27 @@ class CrmClientsController extends Controller
 		$model=$this->loadModel($id);
 
 		// Uncomment the following line if AJAX validation is needed
-    // $this->performAjaxValidation($model);
- 
-    if(isset($_POST['CrmClients'])){
-        $model->attributes=$_POST['CrmClients'];
-        if($model->save()){
-            if(Yii::app()->request->isAjaxRequest){
-                echo 'success';
-                Yii::app()->end();
-            }
-            else
-                $this->redirect(array('view','id'=>$model->id));
-        }
-    }
-    if(Yii::app()->request->isAjaxRequest)
-        $this->renderPartial('update',array('model'=>$model), false, true);
-    else
-        $this->render('update',array('model'=>$model));
- 
-}   
+		// $this->performAjaxValidation($model);
+
+		if(isset($_POST['CrmClients']))
+		{
+			$model->attributes=$_POST['CrmClients'];
+			if($model->save()) {
+				if(Yii::app()->request->isAjaxRequest){
+					echo 'success';
+					Yii::app()->end();
+				}
+				else {
+					$this->redirect(array('view','id'=>$model->id));
+				}
+			}
+		}
+		if(Yii::app()->request->isAjaxRequest)
+			$this->renderPartial('_form',array('model'=>$model), false, true);
+        
+		else
+			$this->render('update',array('model'=>$model));
+	}
 
 	/**
 	 * Deletes a particular model.

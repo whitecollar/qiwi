@@ -1,4 +1,3 @@
-<?php if (!Yii::app()->request->isAjaxRequest): ?>
 <?php
 $this->breadcrumbs=array(
 	'Crm Clients'=>array('index'),
@@ -15,5 +14,5 @@ $this->menu=array(
 ?>
 
 <h1>Update CrmClients <?php echo $model->id; ?></h1>
-<?php endif; ?>
+
 <?php echo $this->renderPartial('_form',array('model'=>$model)); ?>

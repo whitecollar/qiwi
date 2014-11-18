@@ -56,7 +56,7 @@
                                 
     ),
                 array('label'=>'Выход ('.Yii::app()->user->name.')', 'url'=>array('/site/logout'), 'visible'=>!Yii::app()->user->isGuest),
-               
+           
             ),
         ),
     ),

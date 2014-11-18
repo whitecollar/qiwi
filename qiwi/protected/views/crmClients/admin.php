@@ -3,71 +3,16 @@ $this->breadcrumbs=array(
 	'Crm Clients'=>array('index'),
 	'Manage',
 );
- 
-
 
 $this->menu=array(
-    array('label'=>'List Champion', 'url'=>array('index')),
-    array('label'=>'Create Champion', 'url'=>array('create'), 'linkOptions'=>array(
-        'ajax' => array(
-            'url'=>$this->createUrl('create'),
-            'success'=>'function(r){$("#create").html(r).dialog("open"); return false;}', 
-        ),
-    )),
+	array('label'=>'List CrmClients','url'=>array('index')),
+	array('label'=>'Create CrmClients', 'url'=>array('create'), 'linkOptions'=>array(
+		'ajax' => array(
+			'url'=>$this->createUrl('create'),
+			'success'=>'function(r){$("#TBDialogCrud").html(r).modal("show");}', 
+		),
+	)),
 );
-
-$this->beginWidget('zii.widgets.jui.CJuiDialog',array(
-        'id'=>'create',
-        'options'=>array(
-            'title'=>'Create People',
-            'autoOpen'=>false,
-            'modal'=>true,
-            'width'=>'auto',
-            'height'=>'auto',
-            'resizable'=>'false',
-        ),
-    ));
-$this->endWidget();
-
-$this->beginWidget('zii.widgets.jui.CJuiDialog',array(
-        'id'=>'update',
-        'options'=>array(
-            'title'=>'Update People',
-            'autoOpen'=>false,
-            'modal'=>true,
-            'width'=>'auto',
-            'height'=>'auto',
-            'resizable'=>'false',
-        ),
-    ));
-$this->endWidget();
-
-
-
-$updateDialog =<<<'EOT'
-function() {
-    var url = $(this).attr('href');
-    $.get(url, function(r){
-        $("#update").html(r).dialog("open");
-    });
-    return false;
-}
-EOT;
- 
-Yii::app()->clientScript->registerScript('search', "
-$('.search-button').click(function(){
-    $('.search-form').toggle();
-    return false;
-});
-$('.search-form form').submit(function(){
-    $.fn.yiiGridView.update('people-grid', {
-        data: $(this).serialize()
-    });
-    return false;
-});
-");
-
-
 
 Yii::app()->clientScript->registerScript('search', "
 $('.search-button').click(function(){
@@ -83,7 +28,15 @@ $('.search-form form').submit(function(){
 ");
 ?>
 
+<?php $this->beginWidget('bootstrap.widgets.TbModal', array('id'=>'TBDialogCrud')); ?>
+<?php $this->endWidget(); ?>
+
 <h1>Manage Crm Clients</h1>
+
+<p>
+You may optionally enter a comparison operator (<b>&lt;</b>, <b>&lt;=</b>, <b>&gt;</b>, <b>&gt;=</b>, <b>&lt;&gt;</b>
+or <b>=</b>) at the beginning of each of your search values to specify how the comparison should be done.
+</p>
 
 <?php echo CHtml::link('Advanced Search','#',array('class'=>'search-button btn')); ?>
 <div class="search-form" style="display:none">
@@ -92,12 +45,10 @@ $('.search-form form').submit(function(){
 )); ?>
 </div><!-- search-form -->
 
-
 <?php $this->widget('bootstrap.widgets.TbGridView',array(
 	'id'=>'crm-clients-grid',
+	'ajaxUpdate'=>false,
 	'dataProvider'=>$model->search(),
-           'type' => TbHtml::GRID_TYPE_STRIPED,
-    'type' => TbHtml::GRID_TYPE_BORDERED,
 	'filter'=>$model,
 	'columns'=>array(
 		'id',
@@ -112,14 +63,31 @@ $('.search-form form').submit(function(){
 		'flat',
 		'birthday',
 		'addon',
+		'date_in',
+		'postcount',
 		*/
 		array(
 			'class'=>'bootstrap.widgets.TbButtonColumn',
-                    'buttons' => array(
-                'update' => array(
-                    'click'=>$updateDialog
-             ),
-            ),
+			'buttons' => array(
+				'update' => array(
+					'click'=>'function(){
+						var url = $(this).attr("href");
+						$.get(url, function(r){
+							$("#TBDialogCrud").html(r).modal("show");
+						});
+						return false;
+					}',
+				),
+				'view' => array(
+					'click'=>'function(){
+						var url = $(this).attr("href");
+						$.get(url, function(r){
+							$("#TBDialogCrud").html(r).modal("show");
+						});
+						return false;
+					}',
+				),
+			),
 		),
 	),
 )); ?>

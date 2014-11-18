@@ -47,7 +47,7 @@ return array(
     'class' => 'system.gii.GiiModule',
     'password'=>'123',
     // If removed, Gii defaults to localhost only. Edit carefully to taste.
-    'ipFilters' => array('178.169.92.254', '::1'),
+    'ipFilters' => array('178.169.92.254','80.91.197.137', '::1'),
     'generatorPaths'=>array(
 	'bootstrap.gii',
     ),
@@ -173,7 +173,7 @@ return array(
 		),
 		array(
 			'class'=>'application.extensions.yii-debug-toolbar.YiiDebugToolbarRoute',
-			'ipFilters'=>array('127.0.0.1','178.169.92.254'),
+			'ipFilters'=>array('127.0.0.1','178.169.92.254','80.91.197.137'),
 		),
 	),
 ),
